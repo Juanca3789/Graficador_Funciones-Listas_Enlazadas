@@ -1,6 +1,7 @@
 #include<iostream>
 #include<graphics.h>
 #include<string>
+#include<math.h>
 using namespace std;
 
 class Plano{
@@ -537,29 +538,10 @@ void Plano::redimensPlano(int _width, int _height){
 
 int main(){
 	Plano* p1 = new Plano(500, 500, 250, 250, 50, true);
-	p1->iniciarPlano();
-	float matPar[9][2] = {{0, 0},
-						{0.5, 0.25},
-						{1, 1},
-						{1.5, 2.25},
-						{2, 4},
-						{2.5, 6.25},
-						{3, 9},
-						{3.5, 12.25},
-						{4, 16}
-						};
-						
-	float** puntos = new float*[9];
-	for(int i=0; i < 9; i++){
-		puntos[i] = new float[2];
+	for(float i = -5; i < 5; i += 0.001){
+		float y = pow(i, 2);
+		p1->ponerPunto(i, y);
 	}
-	
-	for(int i = 0; i < 9; i++){
-		for(int j = 0; j < 2; j++){
-			puntos[i][j] = matPar[i][j];
-		}
-	}
-	p1->insertarPuntos(puntos, 9);
 	p1->iniciarPlano();
 	system("PAUSE");
 }
