@@ -2,6 +2,7 @@
 #include<graphics.h>
 #include<string>
 #include<math.h>
+#include<iomanip>
 using namespace std;
 
 class Plano{
@@ -14,7 +15,7 @@ class Plano{
 				Punto* siguiente;
 				Punto* anterior;
 				Punto(float _x, float _y);
-				setColorp(int _color){
+				void setColorp(int _color){
 					color = _color;
 				}
 		};
@@ -45,6 +46,8 @@ class Plano{
 		void cambCentro(int _x0, int _y0);
 		void cambZoom(int _k);
 		void redimensPlano(int _width, int _height);
+		void graficarFuncion(double (func)(double));
+		void imprimirPuntos();
 };
 
 Plano::Punto::Punto(float _x, float _y){
@@ -536,12 +539,35 @@ void Plano::redimensPlano(int _width, int _height){
 	iniciarPlano();
 }
 
+void Plano::graficarFuncion(double (func) (double)){
+	for(float i = -5; i < 5; i += 0.001){
+		float y = func(i);
+		ponerPunto(i, y);
+	}
+}
+
+void Plano::imprimirPuntos(){
+	int n = contPuntos();
+	float** puntos = obtenerPuntos();
+	cout<<"[ x y ]"<<endl;
+	for(int i = 0; i < n; i++){
+		cout<<"[ ";
+		for(int j = 0; j < 2; j++){
+			if(j%2 == 0){
+				cout<<fixed<<setprecision(3)<<puntos[i][j]<<" ";
+			}
+			else{
+				cout<<setprecision(6)<<puntos[i][j];
+			}
+		}
+		cout<<" ]"<<endl;
+	}
+}
+
 int main(){
 	Plano* p1 = new Plano(500, 500, 250, 250, 50, true);
-	for(float i = -5; i < 5; i += 0.001){
-		float y = pow(i, 2);
-		p1->ponerPunto(i, y);
-	}
+	float x;
+	p1->graficarFuncion(cos);
 	p1->iniciarPlano();
 	system("PAUSE");
 }
